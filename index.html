@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise for Aish</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="./imgs/favicon.ico" type="image/x-icon">
+    
+</head>
+
+<body>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;700&display=swap');
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        :root {
+            --primary-color: #ff69b4;
+            --secondary-color: #9370db;
+            --accent-color: #00ced1;
+            --text-color: #333;
+            --bg-color: #fff0f5;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            transition: color 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        .hero {
+            background-image: url('./imgs/collage.png');
+            background-size: cover;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 6rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: colorChange 5s infinite alternate;
+        }
+
+        @keyframes colorChange {
+            0% {
+                color: var(--primary-color);
+            }
+
+            50% {
+                color: var(--secondary-color);
+            }
+
+            100% {
+                color: var(--accent-color);
+            }
+        }
+
+        .hero p {
+            font-size: 1.8rem;
+            max-width: 800px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        .memories,
+        .wishes {
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .memory {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .memory:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .memory img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .memory:hover img {
+            transform: scale(1.1);
+        }
+
+        .memory-content {
+            padding: 2rem;
+        }
+
+        .memory h3 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .memory p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        #wishBtn {
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+        }
+
+        #wishBtn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(147, 112, 219, 0.6);
+        }
+
+        #birthdayWish {
+            width: 60%;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 3rem;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease;
+            font-weight: 700;
+        }
+
+        #birthdayWish.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #birthdayWish img {
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            background-color: var(--secondary-color);
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+        }
+
+        .heart {
+            color: var(--primary-color);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .heart-icon {
+            position: absolute;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            opacity: 0.7;
+            animation: float 6s infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+    </style>
+
+    <div class="floating-hearts"></div>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#memories">Our Journey</a></li>
+                <li><a href="#wishes">Birthday Wishes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Happy Birthday, Khargosh!</h1>
+                <p>Celebrating the most beautiful soul in my universe</p>
+            </div>
+        </section>
+
+        <section id="memories" class="memories">
+            <h2>Our Magical Journey</h2>
+            <div class="gallery">
+                <div class="memory">
+                    <img src="./imgs/GridArt_20231025_085817097.jpg" alt="Aishwarya's Birthday">
+                    <div class="memory-content">
+                        <h3>Our Friendship</h3>
+                        <p>In class 11th, I saw you for the first time but we became friends a bit later (utne ache dost to na the prr the 😅) and as the time passed we came closer and fir baat start hui thodi kamm prr hoti to thi and I used to love them, tumhare saath baate😊
+                        </p>
+                    </div>
+                </div>
+                <div class="memory">
+                    <img src="./imgs/Snapchat-1676899551.jpg" alt="Aishwarya at the Beach">
+                    <div class="memory-content">
+                        <h3>Beautiful beginning</h3>
+                        <p>The first time I saw you, it wasn't love at first sight. But as time passed by, I began to notice you, your personality, your voice, your hair, your eyes, your humor. Every little detail, slowly but surely, showed me you were exactly what I needed. You turned out to be everything I wished for.❤️💌</p>
+                    </div>
+                </div>
+                <div class="memory">
+                    <img src="./imgs/Screenshot_2024-01-12-01-39-17-76_6012fa4d4ddec268fc5c7112cbb265e7.jpg" alt="Aishwarya Laughing">
+                    <div class="memory-content">
+                        <h3>Laughter is Our Language</h3>
+                        <p>Your laughter is the sweetest melody, filling our days with joy and light. I loved and feels so glad when you are happy and I really love when you are around me spending beautiful time with me for life. 😘😘 Mtlb yrr tu saath hoti hai to aisa lagta hai time pause hojaye and just hum aise hi sath rahe haste hue hamesha.....</p>
+                    </div>
+                </div>
+                <div class="memory">
+                    <img src="./imgs/Snapchat-1410219575.jpg" alt="Cozy Moment with Aishwarya">
+                    <div class="memory-content">
+                        <h3>Quiet Moments</h3>
+                        <p>Sometimes our love language is being quite but there is alot of words and emotions hidden behind that quietness. In the stillness of our quiet moments, I find the whole world in your eyes. I just love to spend my every second with you jaanu, and always wanna be with you till the end of my life...💝💝</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="wishes" class="wishes">
+            <h2>A Birthday Wish from the Heart</h2>
+            <div class="wish-content">
+                <p>Aishwarya, you are the colors in my world, the melody in my heart, and the warmth in my soul. On your
+                    special day, I want to paint the sky with my love for you...</p>
+                <button id="wishBtn">Unveil My Heartfelt Wish</button>
+                <div id="birthdayWish">
+                    <h3>May your day be as beautiful as you are!</h3>
+                    <img src="./imgs/collage.png" alt="Special Moment with Aishwarya">
+                    <p>Wishing you a year filled with endless joy, boundless love, and dreams that take flight. You
+                        deserve the world and more, my dear Pilli. Happy Birthday to the one who makes every day
+                        feel like a celebration! Khush Raho Munna I am always here for you and love you soooo much my phutkuuuu</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Created with <span class="heart">❤</span> for the most precious person in my life</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            gsap.registerPlugin(ScrollTrigger);
+
+            const wishBtn = document.getElementById('wishBtn');
+            const birthdayWish = document.getElementById('birthdayWish');
+
+            // Animate hero content
+            gsap.from('.hero-content', { duration: 2, opacity: 0, y: 50, ease: 'power3.out' });
+
+            // Animate memories on scroll
+            gsap.utils.toArray('.memory').forEach((memory, index) => {
+                gsap.from(memory, {
+                    scrollTrigger: {
+                        trigger: memory,
+                        start: 'top 80%',
+                        end: 'top 20%',
+                        scrub: 1,
+                    },
+                    opacity: 0,
+                    y: 50,
+                    rotation: index % 2 === 0 ? 5 : -5,
+                    duration: 1,
+                });
+            });
+
+            // Birthday wish button click event
+            wishBtn.addEventListener('click', function () {
+                birthdayWish.classList.add('show');
+                wishBtn.style.display = 'none';
+
+                gsap.from('#birthdayWish h3', { duration: 1, opacity: 0, scale: 0.5, ease: 'back.out(1.7)' });
+                gsap.from('#birthdayWish img', { duration: 1, opacity: 0, y: 50, delay: 0.5, ease: 'power3.out' });
+                gsap.from('#birthdayWish p', { duration: 1, opacity: 0, y: 20, delay: 1, ease: 'power3.out' });
+
+                // Heart-shaped confetti animation
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    shapes: ['heart']
+                });
+
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 50,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        shapes: ['heart']
+                    });
+                    confetti({
+                        particleCount: 50,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        shapes: ['heart']
+                    });
+                }, 500);
+            });
+
+            // Create floating hearts
+            const floatingHearts = document.querySelector('.floating-hearts');
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-icon');
+                heart.innerHTML = '❤';
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.top = `${Math.random() * 100}%`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                floatingHearts.appendChild(heart);
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.19/dist/lenis.min.js"></script>
+    <script>
+        const lenis = new Lenis()
+
+        function raf(time) {
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+        }
+
+        requestAnimationFrame(raf)
+    </script>
+</body>
+
+</html>
